@@ -1,10 +1,10 @@
-import { Task } from "../models/task.models.js";
+import { TaskModel } from "../models/task.models.js";
 
 
 // GET /api/tasks - Obtener todas las tareas
 export const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.findAll();
+    const tasks = await TaskModel.findAll();
     return res.status(200).json(tasks);
   } catch (error) {
     console.log(error);
@@ -16,7 +16,7 @@ export const getAllTasks = async (req, res) => {
 export const getTaskById = async (req, res) => {
   try {
     const { id } = req.params;
-    const task = await Task.findByPk(id);
+    const task = await TaskModel.findByPk(id);
 
     if (!task) {
       return res.status(404).json({ message: "Tarea no encontrada" });
@@ -41,7 +41,7 @@ export const createTask = async (req, res) => {
     if (title.length > 100) {
       return res.status(400).json({ message: "El título no puede superar los 100 caracteres" });
     }
-    const existingTitle = await Task.findOne({ where: { title: title.trim() } });
+    const existingTitle = await TaskModel.findOne({ where: { title: title.trim() } });
     if (existingTitle) {
       return res.status(400).json({ message: "El título de la tarea ya se encuentra registrado" });
     }
@@ -81,7 +81,7 @@ export const updateTask = async (req, res) => {
     const { id } = req.params;
     const { title, description, isComplete } = req.body;
 
-    const task = await Task.findByPk(id);
+    const task = await TaskModel.findByPk(id);
     if (!task) {
       return res.status(404).json({ message: "Tarea no encontrada" });
     }
@@ -94,7 +94,7 @@ export const updateTask = async (req, res) => {
       if (title.length > 100) {
         return res.status(400).json({ message: "El título no puede superar los 100 caracteres" });
       }
-      const existingTitle = await Task.findOne({
+      const existingTitle = await TaskModel.findOne({
         where: { title: title.trim(), id: { [Op.ne]: id } }
       });
       if (existingTitle) {
@@ -137,7 +137,7 @@ export const updateTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const task = await Task.findByPk(id);
+    const task = await TaskModel.findByPk(id);
 
     if (!task) {
       return res.status(404).json({ message: "Tarea no encontrada" });

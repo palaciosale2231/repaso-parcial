@@ -1,10 +1,10 @@
-import { User } from "../models/user.models.js";
+import { UserModel } from "../models/user.models.js";
 
 
 // GET /api/users - Obtener todos los usuarios
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await UserModel.findAll();
     return res.status(200).json(users);
   } catch (error) {
     console.log(error);
@@ -16,7 +16,7 @@ export const getAllUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByPk(id);
+    const user = await UserModel.findByPk(id);
 
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
@@ -49,7 +49,7 @@ export const createUser = async (req, res) => {
     if (email.length > 100) {
       return res.status(400).json({ message: "El email no puede superar los 100 caracteres" });
     }
-    const existingEmail = await User.findOne({ where: { email: email.trim() } });
+    const existingEmail = await UserModel.findOne({ where: { email: email.trim() } });
     if (existingEmail) {
       return res.status(400).json({ message: "El email ya se encuentra registrado" });
     }
@@ -62,7 +62,7 @@ export const createUser = async (req, res) => {
       return res.status(400).json({ message: "La contraseña no puede superar los 100 caracteres" });
     }
 
-    const newUser = await User.create({
+    const newUser = await UserModel.create({
       name: name.trim(),
       email: email.trim(),
       password: password.trim()
@@ -145,7 +145,7 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findByPk(id);
+    const user = await UserModel.findByPk(id);
 
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });

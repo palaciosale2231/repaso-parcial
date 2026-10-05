@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import { startDB } from "./src/config/database.js";
 import { userRouter } from "./src/routes/user.routes.js";
 import { taskRouter } from "./src/routes/task.routes.js";
+import { personRouter } from "./src/routes/person.routes.js";
+import { roleRouter } from "./src/routes/role.routes.js";
 //import { productRouter } from "./src/routes/product.routes.js";
 
 // Cargar las variables definidas en el archivo .env
@@ -11,7 +13,7 @@ dotenv.config();
 const app = express();
 
 // Usar el puerto desde .env o usar 3001 como respaldo
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT 
 
 // Middleware para entender el formato JSON
 app.use(express.json());
@@ -19,6 +21,9 @@ app.use(express.json());
 // Rutas
 app.use("/api", userRouter);
 app.use("/api", taskRouter);
+app.use("/api", personRouter);
+app.use("/api", roleRouter);
+
 
 app.listen(PORT, async () => {
   await startDB();
