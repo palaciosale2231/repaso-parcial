@@ -12,14 +12,14 @@ export const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST || "localhost",
     dialect: process.env.DB_DIALECT || "mysql",
-  }
+  },
 );
 
 // Testear la conexión
 export const startDB = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     console.log("Conexion a la db esta lista");
   } catch (error) {
     console.error("No se pudo conectar a la db:", error);
