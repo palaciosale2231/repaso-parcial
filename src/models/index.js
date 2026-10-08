@@ -10,21 +10,21 @@ import { UserRoleModel } from "./user_role.models.js";
 //un usuario pertenece a una persona.
 UserModel.belongsTo(PersonModel, { foreignKey: "person_id", as: "owner" });
 
-// una persona puede tener un usuario
-PersonModel.hasOne(UserModel, { foreignKey: "person_id", as: "user " });
+// Una persona puede tener un usuario.
+PersonModel.hasOne(UserModel, { foreignKey: "person_id", as: "user" });
 
-PersonModel.hasMany(RoleModel, { foreignKey: "rol_id", as: "rol" });
-
-//relacion mucho a muchos
+// Relación mucho a muchos entre usuarios y roles.
 UserModel.belongsToMany(RoleModel, {
   through: UserRoleModel,
   foreignKey: "user_id",
-  as: "roles ",
+  otherKey: "role_id",
+  as: "roles",
 });
 
-UserModel.belongsToMany(UserModel, {
+RoleModel.belongsToMany(UserModel, {
   through: UserRoleModel,
   foreignKey: "role_id",
+  otherKey: "user_id",
   as: "users",
 });
 
